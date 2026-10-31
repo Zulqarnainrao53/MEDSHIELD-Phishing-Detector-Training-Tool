@@ -43,11 +43,41 @@ export const SwingSimulator: React.FC = () => {
   const [quizCompleted, setQuizCompleted] = useState(false);
 
   // Handlers for Detector
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!sender.trim() && !subject.trim() && !body.trim()) {
       alert('Please fill in the email information before analyzing.\nAll fields cannot be empty.');
       return;
     }
+    setStatusMessage('Running Python detector...');
+
+    try {
+      // If deployed on Vercel or running with /api backend, query Python serverless endpoint
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender, subject, body }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.success) {
+          setAnalysisResult({
+            score: data.score,
+            maxScore: data.maxScore || 9,
+            riskLevel: data.riskLevel,
+            detectedReasons: data.detectedReasons,
+            recommendation: data.recommendation,
+            domain: sender.includes('@') ? sender.split('@').pop()?.toLowerCase() || '' : '',
+            hasDomainDigit: /[0-9]/.test(sender),
+            formattedReport: data.formattedReport,
+          });
+          setStatusMessage('Python Serverless API analysis complete (via /api/analyze).');
+          return;
+        }
+      }
+    } catch {
+      // Fallback seamlessly to local offline rule engine
+    }
+
     const res = analyzeEmail(sender, subject, body);
     setAnalysisResult(res);
     setStatusMessage('Python analysis complete. Review risk score and warning signs in the report.');

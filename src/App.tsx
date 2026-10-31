@@ -3,10 +3,13 @@ import { SwingSimulator } from './components/SwingSimulator';
 import { CodeExplorer } from './components/CodeExplorer';
 import { VivaPreparation } from './components/VivaPreparation';
 import { WindowsRunGuide } from './components/WindowsRunGuide';
+import { VercelDeployGuide } from './components/VercelDeployGuide';
 import {
   PYTHON_SOURCE_CODE,
   JAVA_SOURCE_CODE,
   README_SOURCE_CODE,
+  VERCEL_JSON_CODE,
+  API_ANALYZE_PY_CODE,
 } from './data/sourceCode';
 import {
   Shield,
@@ -18,10 +21,11 @@ import {
   MapPin,
   Users,
   CheckCircle,
+  Cloud,
 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'simulator' | 'code' | 'windows' | 'viva'>('simulator');
+  const [activeTab, setActiveTab] = useState<'simulator' | 'code' | 'windows' | 'viva' | 'vercel'>('simulator');
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
@@ -107,6 +111,18 @@ export default function App() {
               <GraduationCap className="w-3.5 h-3.5" />
               <span>Viva Preparation</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('vercel')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition ${
+                activeTab === 'vercel'
+                  ? 'bg-emerald-600 text-white shadow'
+                  : 'text-emerald-400 hover:text-emerald-200 hover:bg-slate-900'
+              }`}
+            >
+              <Cloud className="w-3.5 h-3.5" />
+              <span>Vercel Fix & Deploy</span>
+            </button>
           </nav>
         </div>
       </header>
@@ -176,6 +192,8 @@ export default function App() {
               pythonCode={PYTHON_SOURCE_CODE}
               javaCode={JAVA_SOURCE_CODE}
               readmeCode={README_SOURCE_CODE}
+              vercelCode={VERCEL_JSON_CODE}
+              apiCode={API_ANALYZE_PY_CODE}
             />
           </div>
         )}
@@ -203,6 +221,19 @@ export default function App() {
               </p>
             </div>
             <VivaPreparation />
+          </div>
+        )}
+
+        {/* Tab 5: Vercel Fix & Deployment Guide */}
+        {activeTab === 'vercel' && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg font-bold text-white">Vercel Deployment Diagnosis & Fix</h2>
+              <p className="text-xs text-slate-400">
+                Fix for Java Swing desktop vs cloud web architecture, vercel.json configuration, and Python serverless functions.
+              </p>
+            </div>
+            <VercelDeployGuide />
           </div>
         )}
       </main>

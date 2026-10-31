@@ -1,0 +1,2 @@
+# MedShield Python Dependencies for Vercel Serverless Functions
+# Uses Python standard libraries only (http.server, json, sys, os)
