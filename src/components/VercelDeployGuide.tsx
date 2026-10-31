@@ -107,6 +107,27 @@ git push -u origin main`;
         </div>
       </div>
 
+      {/* Cause 4: npm error ERESOLVE Banner */}
+      <div className="bg-slate-900/90 p-5 rounded-xl border border-rose-500/40 space-y-3">
+        <div className="flex items-center gap-2.5 text-rose-400 font-bold text-sm">
+          <AlertTriangle className="w-4 h-4 shrink-0" />
+          <span>npm error ERESOLVE: Peer Dependency Conflict Diagnosed & Resolved</span>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-rose-300 leading-relaxed overflow-x-auto">
+          npm error ERESOLVE could not resolve<br />
+          npm error Conflicting peer dependency: esbuild@0.28.2 (required by vite@8.3.5)<br />
+          npm error Found: esbuild@0.25.0 (pinned in devDependencies)
+        </div>
+        <div className="text-xs text-slate-300 space-y-1.5 leading-relaxed">
+          <p>
+            <strong>The Exact Cause:</strong> <code>@tailwindcss/vite</code> and <code>@vitejs/plugin-react</code> accept Vite 8. However, <code>vite@8.3.5</code> requires <code>esbuild@^0.27.0 || ^0.28.0</code>. The root <code>package.json</code> was pinning an outdated <code>esbuild: ^0.25.0</code> under devDependencies!
+          </p>
+          <p className="text-emerald-400 font-medium">
+            <strong>The Permanent Fix:</strong> We removed the conflicting manual <code>"esbuild": "^0.25.0"</code> from <code>devDependencies</code>. Vite now automatically uses its matched internal build engine without needing <code>--force</code> or <code>--legacy-peer-deps</code>!
+          </p>
+        </div>
+      </div>
+
       {/* Files Added & Changed */}
       <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-4">
         <h4 className="text-sm font-bold text-white flex items-center gap-2">
