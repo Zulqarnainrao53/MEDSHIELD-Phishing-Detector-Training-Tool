@@ -1,0 +1,6 @@
+{
+  "name": "MedShield - Healthcare Phishing Detector & Training Tool",
+  "description": "Information Security desktop project for Al-Shifa Medical Clinic (Sahiwal) featuring a rule-based phishing email detector in Python and a staff awareness quiz in Java Swing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
